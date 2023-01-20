@@ -31,8 +31,11 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        //we're firing a general Laravel Auth event, that could be caught with any Listeners in the future
         event(new Registered($user));
 
+        //we have a $device variable, coming automatically from the User Agent,
+        // so we're creating a token specifically for that front-end device, like a mobile phone
         $device = substr($request->userAgent() ?? '', 0, 255);
 
         return response()->json([
