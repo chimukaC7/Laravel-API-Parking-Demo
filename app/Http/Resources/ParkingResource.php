@@ -15,11 +15,9 @@ class ParkingResource extends JsonResource
      */
     public function toArray($request)
     {
-        $totalPrice = $this->total_price ?? ParkingPriceService::calculatePrice(
-            $this->zone_id,
-            $this->start_time,
-            $this->stop_time
-        );
+        //if the user wants to find the current price before the parking is stopped?
+        // Well, we can call the calculation directly on the API Resource file:
+        $totalPrice = $this->total_price ?? ParkingPriceService::calculatePrice($this->zone_id, $this->start_time, $this->stop_time);
 
         return [
             'id'          => $this->id,
@@ -31,6 +29,8 @@ class ParkingResource extends JsonResource
                 'plate_number' => $this->vehicle->plate_number,
                 'description'  => $this->vehicle->description,
             ],
+            //Also, the stop_time field has a question mark, because it may be null,
+            // so we use the syntax stop_time?->method() to avoid errors about using a method on a null object value.
             'start_time'  => $this->start_time->toDateTimeString(),
             'stop_time'   => $this->stop_time?->toDateTimeString(),
             'total_price' => $totalPrice,

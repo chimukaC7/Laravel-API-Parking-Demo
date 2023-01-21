@@ -9,6 +9,7 @@ class ParkingPriceService
 {
     public static function calculatePrice(int $zone_id, string $startTime, string $stopTime = null): int
     {
+        //we convert $startTime and $stopTime to Carbon objects, calculate the difference
         $start = new Carbon($startTime);
         $stop  = (! is_null($stopTime)) ? new Carbon($stopTime) : now();
 

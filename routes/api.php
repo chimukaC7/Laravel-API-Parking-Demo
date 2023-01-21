@@ -25,6 +25,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('profile', [Auth\ProfileController::class, 'update']);
     Route::put('password', Auth\PasswordUpdateController::class);
 
+    //Automatically, the Route::apiResource() will generate 5 API endpoints:
+    //GET /api/v1/vehicles
+    //POST /api/v1/vehicles
+    //GET /api/v1/vehicles/{vehicles.id}
+    //PUT /api/v1/vehicles/{vehicles.id}
+    //DELETE /api/v1/vehicles/{vehicles.id}
     Route::apiResource('vehicles', VehicleController::class);
 
     Route::get('parkings', [ParkingController::class, 'index']);

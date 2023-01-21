@@ -18,6 +18,8 @@ class Vehicle extends Model
 
     protected static function booted()
     {
+        //Now, we need to filter out the data while getting the Vehicles.
+        // For that, we will set up a Global Scope in Eloquent. It will help us to avoid the ->where() statement every we would need it
         static::addGlobalScope('user', function (Builder $builder) {
             $builder->where('user_id', auth()->id());
         });

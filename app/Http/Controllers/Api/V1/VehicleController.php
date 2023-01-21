@@ -20,6 +20,7 @@ class VehicleController extends Controller
 
     public function store(StoreVehicleRequest $request)
     {
+        //We use $request->validated() because this is returned from the Form Request class
         $vehicle = Vehicle::create($request->validated());
 
         return VehicleResource::make($vehicle);

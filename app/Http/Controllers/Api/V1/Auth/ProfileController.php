@@ -14,6 +14,7 @@ class ProfileController extends Controller
 {
     public function show(Request $request)
     {
+        //we just show a few fields of a logged-in user (we don't show any ID or password-sensitive fields)
         return response()->json($request->user()->only('name', 'email'));
     }
 

@@ -52,6 +52,7 @@ class ParkingController extends Controller
         $parking->load('vehicle', 'zone');
 
         return ParkingResource::make($parking);
+        //So, we validate the data, create the Parking object, load its relationships to avoid the N+1 query problem and return the data transformed by API resource.
     }
 
     public function show(Parking $parking)
@@ -63,6 +64,9 @@ class ParkingController extends Controller
 
     public function stop(Parking $parking)
     {
+        //Note that this Service with a static method is only one way to do it.
+        // You could put this method in the Model itself, or a Service with a non-static regular method.
+        //So, when the parking is stopped, calculations are performed automatically, and in the DB, we have the saved value:
         $parking->update([
             'stop_time'   => now(),
             'total_price' => ParkingPriceService::calculatePrice($parking->zone_id, $parking->start_time),
