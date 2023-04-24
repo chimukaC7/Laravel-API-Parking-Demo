@@ -20,19 +20,19 @@ class ParkingResource extends JsonResource
         $totalPrice = $this->total_price ?? ParkingPriceService::calculatePrice($this->zone_id, $this->start_time, $this->stop_time);
 
         return [
-            'id'          => $this->id,
-            'zone'        => [
-                'name'           => $this->zone->name,
+            'id' => $this->id,
+            'zone' => [
+                'name' => $this->zone->name,
                 'price_per_hour' => $this->zone->price_per_hour,
             ],
-            'vehicle'     => [
+            'vehicle' => [
                 'plate_number' => $this->vehicle->plate_number,
-                'description'  => $this->vehicle->description,
+                'description' => $this->vehicle->description,
             ],
             //Also, the stop_time field has a question mark, because it may be null,
             // so we use the syntax stop_time?->method() to avoid errors about using a method on a null object value.
-            'start_time'  => $this->start_time->toDateTimeString(),
-            'stop_time'   => $this->stop_time?->toDateTimeString(),
+            'start_time' => $this->start_time->toDateTimeString(),
+            'stop_time' => $this->stop_time?->toDateTimeString(),
             'total_price' => $totalPrice,
         ];
     }
