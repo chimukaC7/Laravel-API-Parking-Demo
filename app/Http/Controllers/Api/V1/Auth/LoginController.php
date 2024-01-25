@@ -23,7 +23,7 @@ class LoginController extends Controller
 
             $validateUser = Validator::make($request->all(),
                 [
-                    'man_no' => ['required'],
+                    'email' => ['required'],
                     'password' => ['required'],
                 ]
             );
@@ -40,6 +40,7 @@ class LoginController extends Controller
             }
 
             $user = User::where('email', $request->email)->first();
+//            $user = User::where('man_no', $request->man_no)->first();
 
             if (!$user || !Hash::check($request->password, $user->password)) {
 //            throw ValidationException::withMessages([
