@@ -19,11 +19,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//protected routes
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::get('profile', [Auth\ProfileController::class, 'show']);
     Route::put('profile', [Auth\ProfileController::class, 'update']);
     Route::put('password', Auth\PasswordUpdateController::class);
+    Route::post('auth/logout', Auth\LogoutController::class);
 
     //Automatically, the Route::apiResource() will generate 5 API endpoints:
     //GET /api/v1/vehicles
@@ -43,9 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::put('parkings/{activeParking}', [ParkingController::class, 'stop']);
 
-    Route::post('auth/logout', Auth\LogoutController::class);
+
 });
 
+//unprotected routes
 Route::post('auth/register', Auth\RegisterController::class);
 Route::post('auth/login', Auth\LoginController::class);
 Route::get('zones', [ZoneController::class, 'index']);
