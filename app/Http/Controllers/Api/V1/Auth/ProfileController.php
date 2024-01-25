@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 /**
@@ -20,13 +21,34 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-        $validatedData = $request->validate([
-            'name'  => ['required', 'string'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore(auth()->user())],
+        $validate = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'min:5'],
+            'email' => ['nullable', 'email', Rule::unique('users')->ignore(auth()->user())],
+        ], [
+            'name.required' => 'Name is must.',
+            'name.min' => 'Name must have 5 char.',
         ]);
 
-        auth()->user()->update($validatedData);
+        if ($validate->fails()) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validate->errors()
+                ],
+                401
+            );
+        }
 
-        return response()->json($validatedData, Response::HTTP_ACCEPTED);
+
+        auth()->user()->update($validate->getData());
+
+        return response()->json(
+            [
+                'status' => true,
+                'message' => "Saved successfully",
+                'data' => $validate->getData(),
+            ],
+            Response::HTTP_ACCEPTED);
     }
 }
