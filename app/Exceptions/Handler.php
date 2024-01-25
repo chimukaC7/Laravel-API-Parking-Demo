@@ -62,31 +62,31 @@ class Handler extends ExceptionHandler
 //    }
 
 
-
-
-    //Laravel 8 and below:
-    public function render($request, Exception|Throwable $exception)
-    {
-        if ($request->wantsJson() || $request->is('api/*')) {
-            if ($exception instanceof ModelNotFoundException) {
-                return response()->json(['message' => 'Item Not Found'], 404);
-            }
-
-            if ($exception instanceof AuthenticationException) {
-                return response()->json(['message' => 'unAuthenticated'], 401);
-            }
-
-            if ($exception instanceof ValidationException) {
-                return response()->json(['message' => 'UnprocessableEntity', 'errors' => []], 422);
-            }
-
-            if ($exception instanceof NotFoundHttpException) {
-                return response()->json(['message' => 'The requested link does not exist'], 400);
-            }
-        }
-
-        return parent::render($request, $exception);
-    }
+//
+//
+//    //Laravel 8 and below:
+//    public function render($request, Exception|Throwable $exception)
+//    {
+//        if ($request->wantsJson() || $request->is('api/*')) {
+//            if ($exception instanceof ModelNotFoundException) {
+//                return response()->json(['message' => 'Item Not Found'], 404);
+//            }
+//
+//            if ($exception instanceof AuthenticationException) {
+//                return response()->json(['message' => 'unAuthenticated'], 401);
+//            }
+//
+//            if ($exception instanceof ValidationException) {
+//                return response()->json(['message' => 'UnprocessableEntity', 'errors' => []], 422);
+//            }
+//
+//            if ($exception instanceof NotFoundHttpException) {
+//                return response()->json(['message' => 'The requested link does not exist'], 400);
+//            }
+//        }
+//
+//        return parent::render($request, $exception);
+//    }
 
 
     //Laravel 9 and above:
