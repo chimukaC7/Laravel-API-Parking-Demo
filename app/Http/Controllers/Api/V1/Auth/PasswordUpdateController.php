@@ -39,9 +39,11 @@ class PasswordUpdateController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Your password has been updated.',
-        ], Response::HTTP_ACCEPTED);
+        return response()->json(
+            [
+                'status' => true,
+                'message' => 'Your password has been updated.',
+            ],
+            Response::HTTP_ACCEPTED);
     }
 }
