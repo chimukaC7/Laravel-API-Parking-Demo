@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -135,7 +136,7 @@ class Handler extends ExceptionHandler
                 return response()->json(
                     [
                         'status' => false,
-                        'message' => "validation error",
+                        'message' => "Validation error",
                         'errors' => $errors,
                     ], 422);
             }
@@ -148,8 +149,19 @@ class Handler extends ExceptionHandler
                 return response()->json(
                     [
                         'status' => false,
-                        'message' => 'The requested link does not exist'
+                        'message' => 'The specified URL does not exist'
                     ], 400);
+            }
+        });
+
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+
+                return response()->json(
+                    [
+                        'status' => false,
+                        'message' => 'The specified HTTP method for the request is invalid'
+                    ], 405);
             }
         });
 
